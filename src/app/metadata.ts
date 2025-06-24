@@ -50,4 +50,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: "/icon.png",
+  },
 };
