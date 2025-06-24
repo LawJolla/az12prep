@@ -75,7 +75,7 @@ export function FirstBentoAnimation() {
           </motion.div>
           <div className="flex items-center bg-background rounded-full w-fit border border-border flex-shrink-0">
             <img
-              src="https://randomuser.me/api/portraits/women/79.jpg"
+              src="https://randomuser.me/api/portraits/men/68.jpg"
               alt="User Avatar"
               className="size-8 rounded-full flex-shrink-0"
             />
