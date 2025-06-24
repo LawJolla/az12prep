@@ -20,7 +20,7 @@ const boxConfigs: BoxConfig[] = [
     className: "bg-secondary text-white",
   },
   {
-    title: "Bottle Service",
+    title: "Zyns",
     className: "bg-secondary/40 text-white",
   },
   {
