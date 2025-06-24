@@ -21,11 +21,11 @@ export function FooterSection() {
           <p className="tracking-tight text-muted-foreground font-medium">
             {siteConfig.hero.description}
           </p>
-          <div className="flex items-center gap-2 dark:hidden">
+          {/* <div className="flex items-center gap-2 dark:hidden">
             <Icons.soc2 className="size-12" />
             <Icons.hipaa className="size-12" />
             <Icons.gdpr className="size-12" />
-          </div>
+          </div> */}
           {/* <div className="dark:flex items-center gap-2 hidden">
             <Icons.soc2Dark className="size-12" />
             <Icons.hipaaDark className="size-12" />
