@@ -3,6 +3,7 @@
 import { colorWithOpacity, getRGBA } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
 import { motion, useInView } from "motion/react";
+import { useTheme } from "next-themes";
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 
 interface LineChartProps {
@@ -87,7 +88,11 @@ export function LineChart({
   const [computedColor, setComputedColor] = useState(color);
 
   useEffect(() => {
-    setComputedColor(getRGBA(color));
+    const updateColor = async () => {
+      const computedColor = await getRGBA(color);
+      setComputedColor(computedColor);
+    };
+    updateColor();
   }, [color]);
 
   const getColorWithOpacity = useCallback(
@@ -268,14 +273,21 @@ export function ThirdBentoAnimation({
   startAnimationDelay?: number;
   once?: boolean;
 }) {
+  const { theme } = useTheme();
+  const hackedColor = theme === "dark" ? "var(--secondary)" : "var(--primary)";
   const ref = useRef(null);
   const isInView = useInView(ref, { once });
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const [computedColor, setComputedColor] = useState(color);
 
   useEffect(() => {
-    setComputedColor(getRGBA(color));
-  }, [color]);
+    const updateColor = async () => {
+      const color = await getRGBA(hackedColor);
+      console.log({ hackedColor, color });
+      setComputedColor(color);
+    };
+    updateColor();
+  }, [hackedColor]);
 
   useEffect(() => {
     if (isInView) {

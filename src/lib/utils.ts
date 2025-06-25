@@ -10,26 +10,47 @@ export function cn(...inputs: ClassValue[]) {
 export const getRGBA = (
   cssColor: React.CSSProperties["color"],
   fallback: string = "rgba(180, 180, 180)",
-): string => {
-  if (typeof window === "undefined") return fallback;
-  if (!cssColor) return fallback;
+): Promise<string> => {
+  if (typeof window === "undefined") return Promise.resolve(fallback);
+  if (!cssColor) return Promise.resolve(fallback);
 
-  try {
-    // Handle CSS variables
-    if (typeof cssColor === "string" && cssColor.startsWith("var(")) {
-      const element = document.createElement("div");
-      element.style.color = cssColor;
-      document.body.appendChild(element);
-      const computedColor = window.getComputedStyle(element).color;
-      document.body.removeChild(element);
-      return Color.formatRGBA(Color.parse(computedColor));
-    }
+  return new Promise((resolve) => {
+    // Small delay to ensure theme changes have propagated
+    setTimeout(() => {
+      try {
+        // Handle CSS variables
+        if (typeof cssColor === "string" && cssColor.startsWith("var(")) {
+          // Create a temporary element to resolve the CSS variable
+          const element = document.createElement("div");
+          element.style.color = cssColor;
+          element.style.position = "absolute";
+          element.style.visibility = "hidden";
+          element.style.pointerEvents = "none";
+          
+          // Append to document.documentElement to ensure proper inheritance
+          document.documentElement.appendChild(element);
+          
+          // Force a style recalculation
+          element.offsetHeight;
+          
+          // Get the computed color (browser will convert oklch to rgb)
+          const computedColor = window.getComputedStyle(element).color;
+          
+          // Clean up
+          document.documentElement.removeChild(element);
+          
+          // Convert the RGB color to RGBA format
+          resolve(Color.formatRGBA(Color.parse(computedColor)));
+          return;
+        }
 
-    return Color.formatRGBA(Color.parse(cssColor));
-  } catch (e) {
-    console.error("Color parsing failed:", e);
-    return fallback;
-  }
+        resolve(Color.formatRGBA(Color.parse(cssColor)));
+      } catch (e) {
+        console.error("Color parsing failed:", e);
+        resolve(fallback);
+      }
+    }, 10);
+  });
 };
 
 // Helper function to add opacity to an RGB color string
