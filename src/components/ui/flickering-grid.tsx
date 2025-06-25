@@ -44,8 +44,14 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
 
   // Convert any CSS color to rgba for optimal canvas performance
-  const memoizedColor = useMemo(() => {
-    return getRGBA(color);
+  const [memoizedColor, setMemoizedColor] = useState("rgba(180, 180, 180)");
+
+  useEffect(() => {
+    const updateColor = async () => {
+      const resolvedColor = await getRGBA(color);
+      setMemoizedColor(resolvedColor);
+    };
+    updateColor();
   }, [color]);
 
   const drawGrid = useCallback(
