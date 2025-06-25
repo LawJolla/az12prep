@@ -315,8 +315,9 @@ export const siteConfig = {
       },
     ],
   },
+
   bentoSection: {
-    title: "Cs get degrees",
+    title: `C's get degrees`,
     description:
       "We can get you to college and the pros.  Meet with your agent to get started.",
     items: [
