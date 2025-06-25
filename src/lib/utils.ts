@@ -31,6 +31,7 @@ export const getRGBA = (
           document.documentElement.appendChild(element);
           
           // Force a style recalculation
+          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
           element.offsetHeight;
           
           // Get the computed color (browser will convert oklch to rgb)
